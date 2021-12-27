@@ -29,7 +29,7 @@ variable "repository_name" {
   }
 
 variable "branch" {
-  defdefault = "main"  
+  default = "main"  
 }
 variable "vpc_cidr" {
   description = "CIDR block for VPC"
@@ -105,8 +105,29 @@ variable "default_components" {
   type = list
 }
 
+variable "flux_token" {}
 variable "repo_provider" {}  
 variable "repo_url" {}
 variable "bucket"{}
 variable "key" {}
-variable "region"{}
+variable "infra_bucket" {
+  type = map(any)
+  default = {
+    dev   = "project-terraform-state-dev"
+    stage = "project-terraform-state-stage"
+    prod  = "project-terraform-state-prod"
+  }
+}
+
+variable "infra_file" {
+  type = map(any)
+  default = {
+    dev   = "dev/project-eks-bootstrap.tfstate"
+    stage = "stage/project-eks-bootstrap.tfstate"
+    prod  = "prod/project-eks-bootstrap.tfstate"
+  }
+}
+
+variable "components" {
+  type = list
+}

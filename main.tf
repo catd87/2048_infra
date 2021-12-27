@@ -7,6 +7,35 @@ provider "flux" {
 }
 
 terraform {
+  required_providers {
+    helm = {
+      source = "hashicorp/helm"
+      version       = "2.2.0"
+    }
+    flux = {
+      source  = "fluxcd/flux"
+      version = "0.2.0"
+    }
+    kubectl = {
+      source  = "gavinbunney/kubectl"
+      version = "1.10.0"
+    }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = ">= 2.0.2"
+    }
+  }
+}
+
+provider "kubernetes" {
+  config_path = "~/.kube/config"
+}
+
+provider "github" {
+  token = var.flux_token
+}
+
+terraform {
   backend "s3" {
    bucket = "storage-state"
    key    = "storage-state/dev"
@@ -25,7 +54,7 @@ module "vpc" {
   azs             = data.aws_availability_zones.available.names
   private_subnets = var.subn_private
   public_subnets  = var.subn_public
-  
+  version = "3.10.0"
   enable_nat_gateway = true
   enable_vpn_gateway = true
 
@@ -65,9 +94,8 @@ module "eks-node-gruop" {
 
 }
 
-module "flux" {
-  source  = "app.terraform.io/Hypergiant/flux2-bootstrap/kubernetes"
-  version = "~> 0.1.0"
+module "flux3" {
+  source  = "/home/carlos/escritorio_viejo/labs/2048_back/2048_app/apps"
   target_path = "${var.target_path}/${var.env}"
   repo_url = "https://github.com/${var.github_owner}/${var.repository_name}"
   branch = var.branch
@@ -81,7 +109,7 @@ module "flux" {
 }
 
 output "data_github"{
-  value = module.flux2.data_github
+  value = module.flux3.data_github
 }
 
 ##Pruebasss
