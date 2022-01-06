@@ -16,5 +16,10 @@ type_service = "LoadBalancer"
 image = "nginx:1.7.9"
 namespace = "side1"
 node_group_name = "ng_name"
+default_components = ["source-controller", "kustomize-controller", "notification-controller"]
+target_path = "/overlays"
+github_owner = "catd87"
+repo_provider = "github"
+
 
 ##test12222322ss22www
