@@ -74,9 +74,9 @@ module "eks" {
   source = "terraform-aws-modules/eks/aws"
   cluster_name = "${var.env}-${var.cluster_name}"
   vpc_id       = module.vpc.vpc_id
-  subnets      = module.vpc.public_subnets
+  subnet_ids      = module.vpc.public_subnets
   cluster_version = var.cluster_version
-  manage_aws_auth = false
+  #manage_aws_auth = false
   ##Test
   depends_on = [module.vpc]
   }
