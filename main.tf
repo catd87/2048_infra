@@ -6,7 +6,20 @@ provider "flux" {
   alias = "flux2-flux"
 }
 
+provider "kubernetes" {
+  config_path = "~/.kube/config"
+}
+
+provider "github" {
+  token = var.flux_token
+}
+
 terraform {
+  backend "s3" {
+   #$bucket = "storage-state"
+   #$key    = "storage-state/dev"
+   #$region = "us-west-2"
+  }
   required_providers {
     helm = {
       source = "hashicorp/helm"
@@ -24,22 +37,13 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = ">= 2.0.2"
     }
-  }
-}
-
-provider "kubernetes" {
-  config_path = "~/.kube/config"
-}
-
-provider "github" {
-  token = var.flux_token
-}
-
-terraform {
-  backend "s3" {
-   bucket = "storage-state"
-   key    = "storage-state/dev"
-   region = "us-west-2"
+     aws = {
+      source  = "hashicorp/aws"
+      version = ">= 3.63.0"
+    }
+    github = {
+      source= "integrations/github"
+    }
   }
 }
 

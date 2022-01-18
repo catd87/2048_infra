@@ -20,6 +20,7 @@ default_components = ["source-controller", "kustomize-controller", "notification
 target_path = "/overlays"
 github_owner = "catd87"
 repo_provider = "github"
+branch = "dev"
 
 
 ##test12222322ss22www
